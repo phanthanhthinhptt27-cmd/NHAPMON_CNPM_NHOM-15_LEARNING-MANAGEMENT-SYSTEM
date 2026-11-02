@@ -4,35 +4,33 @@ Nhóm 15 - Nhập môn Công nghệ Phần mềm
 Thành viên phụ trách Quản lý Lớp học & Giảng dạy: Trần Đức Duy - MSSV: 25S1020023
 """
 from course_management import CourseManager
+from schedule_assignment import ScheduleManager
 
 
-def demo_course_management():
-    print("=" * 60)
-    print("DEMO TÍNH NĂNG 1: QUẢN LÝ KHÓA HỌC / MÔN HỌC (feature/course-management)")
+def main():
+    print("=" * 65)
+    print("HỆ THỐNG LMS - PHÂN HỆ QUẢN LÝ LỚP HỌC & GIẢNG DẠY")
     print("Người thực hiện: Trần Đức Duy (MSSV: 25S1020023)")
-    print("=" * 60)
+    print("=" * 65)
 
+    # 1. Quản lý khóa học (feature/course-management)
     cm = CourseManager()
-
-    # 1. Tạo khóa học mới
+    print("\n--- 1. KHỞI TẠO VÀ QUẢN LÝ KHÓA HỌC ---")
     cm.add_course("C01", "Nhập môn Công nghệ Phần mềm", "TIN3142", 3, "Khóa học nền tảng về quy trình phần mềm")
     cm.add_course("C02", "Cơ sở dữ liệu", "TIN3022", 3, "Thiết kế và quản trị CSDL quan hệ")
-    cm.add_course("C03", "Lập trình Web nâng cao", "TIN3112", 4, "Xây dựng ứng dụng web với Framework hiện đại")
-
-    # 2. Hiển thị danh sách khóa học
     cm.display_courses()
 
-    # 3. Chỉnh sửa khóa học
-    print("\n--- Cập nhật thông tin khóa học C01 ---")
-    cm.update_course("C01", name="Nhập môn Công nghệ Phần mềm (Thực hành Git)", credits=4)
+    # 2. Phân công giảng viên & Xếp lịch học (feature/schedule-assignment)
+    sm = ScheduleManager()
+    print("\n--- 2. THÊM GIẢNG VIÊN VÀ PHÂN CÔNG LỊCH HỌC ---")
+    sm.add_instructor("GV01", "TS. Trần Văn Long", "tvlong@hueuni.edu.vn", "Khoa Tin học")
+    sm.add_instructor("GV02", "ThS. Nguyễn Văn A", "nva@hueuni.edu.vn", "Khoa Tin học")
 
-    # 4. Xóa khóa học
-    print("\n--- Xóa khóa học C03 ---")
-    cm.delete_course("C03")
+    sm.assign_schedule("SCH01", "C01", "GV01", "Thứ 2", "07:30 - 09:30", "Phòng A201", course_manager=cm)
+    sm.assign_schedule("SCH02", "C02", "GV02", "Thứ 4", "13:30 - 15:30", "Phòng Lab 3", course_manager=cm)
 
-    # 5. Hiển thị lại danh sách sau khi sửa/xóa
-    cm.display_courses()
+    sm.display_schedules(course_manager=cm)
 
 
 if __name__ == "__main__":
-    demo_course_management()
+    main()
