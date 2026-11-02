@@ -15,3 +15,10 @@ Phụ trách: **Trần Đức Duy**
 ```bash
 python app.py
 ```
+
+## 4. Bài tập thực hành Sprint 0 (Cập nhật README)
+
+Phụ trách: **Lê Quân Bảo**
+
+* `feature/update-readme` : Cập nhật tài liệu README cho toàn bộ dự án.
+* `feature/readme-member-info` : Bổ sung danh sách và thông tin chi tiết các thành viên nhóm.
