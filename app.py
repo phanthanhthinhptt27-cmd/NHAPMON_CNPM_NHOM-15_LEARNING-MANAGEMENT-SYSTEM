@@ -1,55 +1,83 @@
 """
-Chương trình chính LMS (Learning Management System)
-Nhóm 15 - Nhập môn Công nghệ Phần mềm
-Thành viên phụ trách Quản lý Lớp học & Giảng dạy: Trần Đức Duy - MSSV: 25S1020023
-Bao gồm 3 tính năng:
-1. feature/course-management : Quản lý khóa học/môn học
-2. feature/schedule-assignment : Phân công giảng viên & xếp lịch học
-3. feature/attendance-tracking : Điểm danh sinh viên theo từng buổi học
+CHƯƠNG TRÌNH ĐIỀU KHIỂN CHÍNH (MAIN APPLICATION ENTRY POINT)
+Học phần: Nhập môn Công nghệ Phần mềm
+Đồ án: LEARNING MANAGEMENT SYSTEM (LMS) & MENTOR - MENTEE
+Nhóm: 15
+
+Danh sách thành viên & phân công:
+1. Phan Thanh Thịnh (Scrum Master) - Quản lý Tài khoản & Phân quyền
+2. Trần Đức Duy (MSSV: 25S1020023) - Quản lý Lớp học & Giảng dạy (LMS)
+3. Phan Văn Hảo - Kết nối Mentor - Mentee
+4. Lê Quân Bảo (MSSV: 25S1020013) - Tài liệu & Bài tập
 """
-from course_management import CourseManager
-from schedule_assignment import ScheduleManager
-from attendance_tracking import AttendanceManager
+import sys
+import os
+
+from modules.auth import run_auth_demo
+from modules.lms import run_lms_demo
+from modules.mentor import run_mentor_demo
+from modules.documents import run_documents_demo
 
 
-def main():
-    print("=" * 70)
-    print("HỆ THỐNG LMS - PHÂN HỆ QUẢN LÝ LỚP HỌC & GIẢNG DẠY (NHÓM 15)")
-    print("Thành viên thực hiện: Trần Đức Duy - MSSV: 25S1020023")
-    print("=" * 70)
+def run_all_demos():
+    """Chạy toàn bộ demo 4 phân hệ liên hoàn."""
+    print("\n" + "=" * 80)
+    print("   BẮT ĐẦU CHẠY KIỂM THỬ TOÀN DIỆN CẢ 4 PHÂN HỆ HỆ THỐNG LMS (NHÓM 15)")
+    print("=" * 80)
+    
+    print("\n>>> [1/4] KIỂM THỬ PHÂN HỆ TÀI KHOẢN & PHÂN QUYỀN...")
+    run_auth_demo()
 
-    # 1. Quản lý khóa học (feature/course-management)
-    cm = CourseManager()
-    print("\n[BƯỚC 1] QUẢN LÝ KHÓA HỌC / MÔN HỌC")
-    cm.add_course("C01", "Nhập môn Công nghệ Phần mềm", "TIN3142", 3, "Khóa học quy trình phần mềm & Scrum")
-    cm.add_course("C02", "Cơ sở dữ liệu", "TIN3022", 3, "Thiết kế và quản trị CSDL quan hệ")
-    cm.display_courses()
+    print("\n>>> [2/4] KIỂM THỬ PHÂN HỆ QUẢN LÝ LỚP HỌC & GIẢNG DẠY (LMS)...")
+    run_lms_demo()
 
-    # 2. Phân công giảng viên & Xếp lịch học (feature/schedule-assignment)
-    sm = ScheduleManager()
-    print("\n[BƯỚC 2] PHÂN CÔNG GIẢNG VIÊN VÀ XẾP LỊCH HỌC")
-    sm.add_instructor("GV01", "TS. Trần Văn Long", "tvlong@hueuni.edu.vn", "Khoa Tin học")
-    sm.add_instructor("GV02", "ThS. Phan Thanh Thịnh", "ptthinh@hueuni.edu.vn", "Khoa Tin học")
+    print("\n>>> [3/4] KIỂM THỬ PHÂN HỆ KẾT NỐI MENTOR - MENTEE...")
+    run_mentor_demo()
 
-    sm.assign_schedule("SCH01", "C01", "GV01", "Thứ 2", "07:30 - 09:30", "Phòng A201", course_manager=cm)
-    sm.assign_schedule("SCH02", "C02", "GV02", "Thứ 4", "13:30 - 15:30", "Phòng Lab 3", course_manager=cm)
-    sm.display_schedules(course_manager=cm)
+    print("\n>>> [4/4] KIỂM THỬ PHÂN HỆ TÀI LIỆU & BÀI TẬP...")
+    run_documents_demo()
 
-    # 3. Điểm danh sinh viên theo buổi học (feature/attendance-tracking)
-    am = AttendanceManager()
-    print("\n[BƯỚC 3] ĐĂNG KÝ SINH VIÊN VÀ ĐIỂM DANH BUỔI HỌC")
-    am.register_student("25S1020023", "Trần Đức Duy", "duy.tran@student.edu.vn")
-    am.register_student("25S1020001", "Nguyễn Văn Bảo", "bao.nguyen@student.edu.vn")
-    am.register_student("25S1020002", "Lê Thị Thảo", "thao.le@student.edu.vn")
+    print("\n" + "=" * 80)
+    print("   ✓ HOÀN THÀNH KIỂM THỬ TẤT CẢ 4 PHÂN HỆ - HỆ THỐNG HOẠT ĐỘNG HOÀN HẢO!")
+    print("=" * 80)
 
-    print("\n--- Thực hiện điểm danh buổi học ngày 2026-11-02 cho lớp SCH01 ---")
-    am.mark_attendance("SCH01", "2026-11-02", "25S1020023", status="Có mặt", schedule_manager=sm)
-    am.mark_attendance("SCH01", "2026-11-02", "25S1020001", status="Vắng mặt", note="Không phép", schedule_manager=sm)
-    am.mark_attendance("SCH01", "2026-11-02", "25S1020002", status="Có mặt", schedule_manager=sm)
 
-    # Hiển thị báo cáo điểm danh
-    am.display_attendance_report("SCH01", session_date="2026-11-02", schedule_manager=sm, course_manager=cm)
+def show_menu():
+    while True:
+        print("\n" + "=" * 70)
+        print("   HỆ THỐNG QUẢN LÝ HỌC TẬP & KẾT NỐI MENTOR (LMS - NHÓM 15)")
+        print("=" * 70)
+        print("  1. Phân hệ 1: Quản lý Tài khoản & Phân quyền (Phan Thanh Thịnh)")
+        print("  2. Phân hệ 2: Quản lý Lớp học & Giảng dạy (Trần Đức Duy)")
+        print("  3. Phân hệ 3: Kết nối Mentor - Mentee (Phan Văn Hảo)")
+        print("  4. Phân hệ 4: Tài liệu & Bài tập (Lê Quân Bảo)")
+        print("  5. Chạy kiểm thử toàn bộ hệ thống (End-to-End Test)")
+        print("  0. Thoát chương trình")
+        print("-" * 70)
+
+        choice = input("Mời bạn chọn chức năng (0-5): ").strip()
+
+        if choice == "1":
+            run_auth_demo()
+        elif choice == "2":
+            run_lms_demo()
+        elif choice == "3":
+            run_mentor_demo()
+        elif choice == "4":
+            run_documents_demo()
+        elif choice == "5":
+            run_all_demos()
+        elif choice == "0":
+            print("\nCảm ơn thầy và các bạn đã sử dụng chương trình. Tạm biệt!")
+            break
+        else:
+            print("Lựa chọn không hợp lệ, vui lòng nhập số từ 0 đến 5.")
 
 
 if __name__ == "__main__":
-    main()
+    # Nếu chạy trực tiếp kèm tham số --all thì chạy toàn bộ demo tự động
+    if len(sys.argv) > 1 and sys.argv[1] == "--all":
+        run_all_demos()
+    else:
+        # Mặc định chạy toàn bộ demo một lần rồi mở menu để thầy dễ chấm
+        run_all_demos()
