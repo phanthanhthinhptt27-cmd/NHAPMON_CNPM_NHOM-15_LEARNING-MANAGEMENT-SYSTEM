@@ -77,3 +77,47 @@ python app.py
   ```bash
   python -m modules.documents.demo_documents
   ```
+
+---
+
+## Chương 4: Phát triển, Tích hợp & Đảm bảo chất lượng (Sprint 1 Mini & Unit Testing)
+
+Hệ thống kiểm thử tự động (Unit Testing) được áp dụng chặt chẽ theo cấu trúc **AAA (Arrange - Act - Assert)** với tổng cộng **21 Test Cases**:
+
+### 1. Phân công Unit Test cho 4 thành viên (Mỗi thành viên 4 Unit Tests):
+* **Phan Thanh Thịnh (`tests/test_auth.py`):**
+  - `test_register_new_user_success`: Đăng ký tài khoản mới hợp lệ.
+  - `test_register_duplicate_username_fails`: Đăng ký tài khoản bị trùng username.
+  - `test_login_valid_credentials_success`: Đăng nhập với thông tin chính xác.
+  - `test_login_wrong_password_fails`: Đăng nhập với mật khẩu sai.
+* **Trần Đức Duy (`tests/test_lms.py`):**
+  - `test_add_course_success`: Thêm khóa học mới hợp lệ.
+  - `test_add_course_duplicate_id_fails`: Thêm khóa học bị trùng mã ID.
+  - `test_delete_course_success`: Xóa khóa học thành công.
+  - `test_delete_course_not_found_fails`: Xóa khóa học không tồn tại trong hệ thống.
+* **Phan Văn Hảo (`tests/test_mentor.py`):**
+  - `test_search_mentor_by_skill_found`: Tìm kiếm mentor theo kỹ năng chuyên môn.
+  - `test_search_mentor_not_found`: Tìm kiếm mentor với từ khóa không tồn tại.
+  - `test_book_appointment_success`: Đặt lịch hẹn tư vấn thành công.
+  - `test_session_feedback_invalid_rating_fails`: Đánh giá số sao không hợp lệ (ngoài 1-5 sao).
+* **Lê Quân Bảo (`tests/test_documents.py`):**
+  - `test_upload_document_success`: Tải lên tài liệu học tập mới.
+  - `test_submit_assignment_success`: Sinh viên nộp bài tập.
+  - `test_grade_assignment_success`: Giảng viên chấm điểm bài nộp.
+  - `test_grade_assignment_not_found_fails`: Chấm điểm bài nộp không tồn tại.
+
+### 2. Hoạt động 3 - Tính phạt mượn sách quá hạn (`tests/test_fine_calculator.py`):
+* `test_no_fine`: Trả sách đúng hạn (0 ngày) -> 0đ.
+* `test_normal_fine`: Quá hạn 5 ngày -> 25.000đ.
+* `test_heavy_fine`: Quá hạn 11 ngày (> 10 ngày) -> 66.000đ (+20%).
+* `test_boundary_ten_days`: Quá hạn 10 ngày biên -> 50.000đ.
+* `test_negative_days`: Số ngày âm -> 0đ.
+
+### 3. Lệnh chạy kiểm thử tự động (Run Unit Tests):
+```bash
+# Cách 1: Sử dụng pytest (Khuyên dùng - trực quan, hiển thị tỷ lệ %)
+python -m pytest tests/ -v
+
+# Cách 2: Sử dụng thư viện chuẩn unittest có sẵn trong Python
+python -m unittest discover -s tests -v
+```
